@@ -10,8 +10,10 @@ class BacData(scrapy.Spider):
     name = 'bd'
     start_urls = ['http://bacalaureat.edu.ro/Pages/TaraRezultAlfa.aspx']
     headers = [""]
-    crtPage = 1
-    totalPages = 13552
+    started = False
+    startPage = 1
+    crtPage = 0
+    endPage = 13552
     errors = 0
 
 
@@ -32,119 +34,123 @@ class BacData(scrapy.Spider):
         self.errors = 0
 
 
+        if self.started :
+            for tr in response.xpath('(//table[@class="mainTable"]/tr/td[@class="tdBac"])'):
+                if crtTr == None:
+                    continue
 
-        for tr in response.xpath('(//table[@class="mainTable"]/tr/td[@class="tdBac"])'):
-            if crtTr == None:
-                continue
+                if crtTr % 31 == 0:
+                    item['nr'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 0:
-                item['nr'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 1:
+                    item['nume'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 1:
-                item['nume'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 2:
+                    item['posIerarhieJudet'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 2:
-                item['posIerarhieJudet'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 3:
+                    item['posIerarhieTara'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 3:
-                item['posIerarhieTara'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 4:
+                    item['unitInvatamant'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 4:
-                item['unitInvatamant'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 5:
+                    item['judet'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 5:
-                item['judet'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 6:
+                    item['promotieAnterioara'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 6:
-                item['promotieAnterioara'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 7:
+                    item['formaEducatie'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 7:
-                item['formaEducatie'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 8:
+                    item['specializare'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 8:
-                item['specializare'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 9:
+                    item['examenOralRomana'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 9:
-                item['examenOralRomana'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 10:
+                    item['notaScrisaRomana'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 10:
-                item['notaScrisaRomana'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 11:
+                    item['notaContestatieRomana'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 11:
-                item['notaContestatieRomana'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 12:
+                    item['notaFinalaRomana'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 12:
-                item['notaFinalaRomana'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 13:
+                    item['limbaMaterna'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 13:
-                item['limbaMaterna'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 14:
+                    item['limbaModerna'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 14:
-                item['limbaModerna'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 15:
+                    item['notaLimbaModerna'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 15:
-                item['notaLimbaModerna'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 16:
+                    item['disciplinaObligatorie'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 16:
-                item['disciplinaObligatorie'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 17:
+                    item['disciplinaAlegere'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 17:
-                item['disciplinaAlegere'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 18:
+                    item['competenteDigitale'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 18:
-                item['competenteDigitale'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 19:
+                    item['medie'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 19:
-                item['medie'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 20:
+                    item['rezultatFinal'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 20:
-                item['rezultatFinal'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 21:
+                    item['competenteMaterna'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 21:
-                item['competenteMaterna'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 22:
+                    item['notaScrisaMaterna'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 22:
-                item['notaScrisaMaterna'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 23:
+                    item['notaContestatieMaterna'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 23:
-                item['notaContestatieMaterna'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 24:
+                    item['notaFinalaMaterna'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 24:
-                item['notaFinalaMaterna'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 25:
+                    item['notaDisciplinaObligatorie'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 25:
-                item['notaDisciplinaObligatorie'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 26:
+                    item['notaContestatieDisciplinaObligatorie'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 26:
-                item['notaContestatieDisciplinaObligatorie'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 27:
+                    item['notaFinalaDisciplinaObligatorie'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 27:
-                item['notaFinalaDisciplinaObligatorie'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 28:
+                    item['notaDisciplinaAlegere'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 28:
-                item['notaDisciplinaAlegere'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
+                if crtTr % 31 == 29:
+                    item['notaContestatieDisciplinaAlegere'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
-            if crtTr % 31 == 29:
-                item['notaContestatieDisciplinaAlegere'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
-
-            if crtTr % 31 == 30:
-                item['notaFinalaDisciplinaAlegere'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
-
-
+                if crtTr % 31 == 30:
+                    item['notaFinalaDisciplinaAlegere'] = BeautifulSoup(tr.extract().encode("utf-8")).get_text()
 
 
-            if crtTr % 31 == 0 and crtTr != 0:
-                yield  item
-
-            crtTr += 1
 
 
-        print("## Parsing page ", self.crtPage, " ended")
+                if crtTr % 31 == 0 and crtTr != 0:
+                    yield  item
+
+                crtTr += 1
+
+        if self.started:
+            print("## Parsing page ", self.crtPage, " ended")
 
         #Go to the next page
-        self.crtPage += 1
+        if not self.started :
+            self.crtPage = self.startPage
+            self.started = True
+        else:
+            self.crtPage += 1
 
-        if(self.crtPage <= self.totalPages):
+        if(self.crtPage <= self.endPage):
             while True:
                 print("## Trying to jump to next page: ", self.crtPage)
 
